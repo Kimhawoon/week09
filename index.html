@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>주소 API 실습</title>
+  <link rel="stylesheet" href="css/address.css/address.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>도로명 주소 검색하기</h1>
+        <p>키워드로부터</p>
+      </div>
+    
+    <div class="form-login">   
+    <h2>주소 검색</h2>
+    <form id="form">
+      <input type="text" name="keyword" id="keyword" placeholder="검색어 입력">
+      <button type="submit">검색</button>
+    </form>
+    <ul id="address-list"></ul>
+    </div>
+
+    <div id="map" style="width:750px;height:350px;"></div>
+
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=020e0abf4173cb340568ec22aeaf3caa"></script>
+
+	<script>
+    const API_URL = 'http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do';
+    const API_KEY = 'devU01TX0FVVEgyMDIwMTIwMTE2MjkwMTExMDQ4NjY=';
+    const form = document.querySelector('#form');
+    const addressList = document.querySelector('#address-list');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const keyword = encodeURIComponent(form.keyword.value);
+      try {
+        const response = await search(keyword);
+        const txt = await response.text();
+        const results = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+        display(results);
+        form.reset();
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    function search(keyword, currentPage=1, countPerPage=10) {
+      const data = {
+        confmKey: API_KEY, 
+        keyword, 
+        currentPage, 
+        countPerPage, 
+        resultType: 'json'
+      };
+
+      const body = Object.keys(data).map(key => `${key}=${data[key]}`).join('&');
+
+      const options = {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        }
+      };
+
+      return fetch(API_URL, options);
+    }
+
+    function display(results) {
+      addressList.innerHTML = '';
+      results.juso.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `${item.zipNo}) ${item.roadAddr}`;
+        addressList.appendChild(li);
+      });
+    }
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.57003, 126.97981), // 지도의 중심좌표
+		        level: 4, // 지도의 확대 레벨
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    }; 
+            
+  </script>
+
+</body>
+</html>
