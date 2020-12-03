@@ -6,14 +6,19 @@
   .container {
     width: 100%;
     height: 150px;
+    color:rgb(144, 190, 138);
     display: gird;
     grid-template-rows: 100px 1fr; 
-    background-color: rgba(0, 0, 0, 0.5);
     background-position: center center;
     background-size: cover;
     background-blend-mode: overlay;
     position: relative;
     overflow: hidden;
+    margin-left:30px;
+    margin-top:15px;
+    animation-name: banner-content;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-out;
   }
   
   .container > * {
@@ -21,10 +26,11 @@
   }
   
   .container > h1 {
-    top: 30px;
+    top: 70px;
     width:100%;
     text-align: center;
-    color: white;
+    font-size:xx-large;
+    font-weight:bold;
     animation-name: banner-content;
     animation-duration: 2.5s;
     animation-timing-function: ease-out;
@@ -34,31 +40,51 @@
   top: 90px;
   width:100%;
   text-align: center;
-  color: #eee;
   animation-name: banner-content;
   animation-duration: 2.5s;
 }
 
 .form-search {
-    width: 100%;
+    width: 45%;
+    height:600px;
     background: #eee;
     text-align: center;
     padding: 20px;
     margin: auto;
+    border-radius:10%;
+    animation-name: banner-content;
+    animation-duration: 2.5s;
   
 }
 
-.form-search > h2 {
+.form-search > h3 {
     top: 80px;
     left: 50px;
     color: black;
+    padding-bottom:10px;
   animation-name: banner-title;
-  animation-duration: 1.5s;
+  animation-duration: 2.5s;
   animation-timing-function: ease-out;
 }
 
-.pages {
-    text-align: center;
+button {
+    height:35px;
+    width:70px;
+    background-color: rgb(144, 190, 138);
+    color:#eee;
+    border: 1px solid #eee;
+     }
+
+input {
+    height:30px;
+    width:300px;
+    border: 5px solid rgb(144, 190, 138);
+}
+
+li {
+    margin:5px;
+    padding:10px;
+    list-style:none;
 }
 
 @keyframes banner-title {
@@ -70,3 +96,4 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
